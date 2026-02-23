@@ -26,38 +26,45 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-const Logo = ({ className = "h-10", isScrolled = false }: { className?: string, isScrolled?: boolean }) => {
+const Logo = ({ className = "h-12", variant = "default" }: { className?: string, variant?: 'default' | 'white' }) => {
+  const primaryColor = variant === 'white' ? '#FFFFFF' : '#003366';
+  const secondaryColor = variant === 'white' ? '#FFFFFF' : '#2D6BA3';
+  const vmsGradientStart = variant === 'white' ? '#FFFFFF' : '#5B9BD5';
+  const vmsGradientEnd = variant === 'white' ? '#E2E8F0' : '#003366';
+
   return (
-    <div className={`flex items-center group cursor-pointer ${className}`}>
-      <svg viewBox="0 0 400 220" className="h-full w-auto" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+    <div className={`flex items-center ${className}`}>
+      <svg viewBox="0 0 420 160" className="h-full w-auto overflow-visible" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet">
         {/* 3x3 Grid of rounded squares */}
-        <rect x="10" y="35" width="35" height="35" rx="6" fill="#7BAFD4" />
-        <rect x="55" y="35" width="35" height="35" rx="6" fill="#95B9D9" />
-        <rect x="100" y="35" width="35" height="35" rx="6" fill="#E31E24" />
-        
-        <rect x="10" y="80" width="35" height="35" rx="6" fill="#2D6BA3" />
-        <rect x="55" y="80" width="35" height="35" rx="6" fill="#3B5983" />
-        <rect x="100" y="80" width="35" height="35" rx="6" fill="#5D7695" />
-        
-        <rect x="10" y="125" width="35" height="35" rx="6" fill="#0072CE" />
-        <rect x="55" y="125" width="35" height="35" rx="6" fill="#002D56" />
-        <rect x="100" y="125" width="35" height="35" rx="6" fill="#1D3652" />
+        <g opacity={variant === 'white' ? 0.9 : 1}>
+          <rect x="0" y="20" width="32" height="32" rx="4" fill="#7BAFD4" />
+          <rect x="38" y="20" width="32" height="32" rx="4" fill="#95B9D9" />
+          <rect x="76" y="20" width="32" height="32" rx="4" fill="#E31E24" />
+          
+          <rect x="0" y="58" width="32" height="32" rx="4" fill="#2D6BA3" />
+          <rect x="38" y="58" width="32" height="32" rx="4" fill="#3B5983" />
+          <rect x="76" y="58" width="32" height="32" rx="4" fill="#5D7695" />
+          
+          <rect x="0" y="96" width="32" height="32" rx="4" fill="#0072CE" />
+          <rect x="38" y="96" width="32" height="32" rx="4" fill="#002D56" />
+          <rect x="76" y="96" width="32" height="32" rx="4" fill="#1D3652" />
+        </g>
 
         {/* VMS Text with Gradient */}
         <defs>
-          <linearGradient id="vmsGradient" x1="145" y1="60" x2="145" y2="130" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#5B9BD5" />
-            <stop offset="100%" stopColor="#003366" />
+          <linearGradient id={`vmsGradient-${variant}`} x1="120" y1="40" x2="120" y2="110" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor={vmsGradientStart} />
+            <stop offset="100%" stopColor={vmsGradientEnd} />
           </linearGradient>
         </defs>
-        <text x="145" y="135" fontFamily="Inter, sans-serif" fontWeight="800" fontSize="105" letterSpacing="-4" fill="url(#vmsGradient)">VMS</text>
+        <text x="115" y="105" fontFamily="Inter, sans-serif" fontWeight="800" fontSize="100" letterSpacing="-4" fill={`url(#vmsGradient-${variant})`}>VMS</text>
         
         {/* Divider Line */}
-        <line x1="140" y1="155" x2="390" y2="155" stroke="#003366" strokeWidth="3" />
+        <rect x="112" y="122" width="300" height="3" fill={primaryColor} />
         
         {/* Subtext */}
-        <text x="145" y="185" fontFamily="Inter, sans-serif" fontWeight="500" fontSize="26" fill="#003366">
-          <tspan fill="#2D6BA3">Validation Management</tspan> <tspan fontWeight="700" fill="#002D56">Solutions</tspan>
+        <text x="115" y="152" fontFamily="Inter, sans-serif" fontWeight="500" fontSize="24" fill={primaryColor}>
+          <tspan fill={secondaryColor}>Validation Management</tspan> <tspan fontWeight="700" fill={primaryColor}>Solutions</tspan>
         </text>
       </svg>
     </div>
@@ -86,9 +93,7 @@ const Navbar = () => {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <div className={`transition-all duration-300 flex items-center ${isScrolled ? 'brightness-100' : 'brightness-0 invert'}`}>
-          <Logo className="h-10 md:h-12" isScrolled={isScrolled} />
-        </div>
+        <Logo className="h-10 md:h-12" variant={isScrolled ? 'default' : 'white'} />
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
