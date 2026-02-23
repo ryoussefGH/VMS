@@ -28,35 +28,35 @@ import { motion, AnimatePresence } from 'motion/react';
 
 const Logo = ({ className = "h-10", isScrolled = false }: { className?: string, isScrolled?: boolean }) => {
   return (
-    <div className={`flex items-center gap-3 group cursor-pointer ${className}`}>
-      <svg viewBox="0 0 400 180" className="h-full w-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div className={`flex items-center group cursor-pointer ${className}`}>
+      <svg viewBox="0 0 400 220" className="h-full w-auto" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
         {/* 3x3 Grid of rounded squares */}
-        <rect x="10" y="20" width="35" height="35" rx="6" fill="#7BAFD4" />
-        <rect x="55" y="20" width="35" height="35" rx="6" fill="#95B9D9" />
-        <rect x="100" y="20" width="35" height="35" rx="6" fill="#E31E24" />
+        <rect x="10" y="35" width="35" height="35" rx="6" fill="#7BAFD4" />
+        <rect x="55" y="35" width="35" height="35" rx="6" fill="#95B9D9" />
+        <rect x="100" y="35" width="35" height="35" rx="6" fill="#E31E24" />
         
-        <rect x="10" y="65" width="35" height="35" rx="6" fill="#2D6BA3" />
-        <rect x="55" y="65" width="35" height="35" rx="6" fill="#3B5983" />
-        <rect x="100" y="65" width="35" height="35" rx="6" fill="#5D7695" />
+        <rect x="10" y="80" width="35" height="35" rx="6" fill="#2D6BA3" />
+        <rect x="55" y="80" width="35" height="35" rx="6" fill="#3B5983" />
+        <rect x="100" y="80" width="35" height="35" rx="6" fill="#5D7695" />
         
-        <rect x="10" y="110" width="35" height="35" rx="6" fill="#0072CE" />
-        <rect x="55" y="110" width="35" height="35" rx="6" fill="#002D56" />
-        <rect x="100" y="110" width="35" height="35" rx="6" fill="#1D3652" />
+        <rect x="10" y="125" width="35" height="35" rx="6" fill="#0072CE" />
+        <rect x="55" y="125" width="35" height="35" rx="6" fill="#002D56" />
+        <rect x="100" y="125" width="35" height="35" rx="6" fill="#1D3652" />
 
         {/* VMS Text with Gradient */}
         <defs>
-          <linearGradient id="vmsGradient" x1="145" y1="50" x2="145" y2="120" gradientUnits="userSpaceOnUse">
+          <linearGradient id="vmsGradient" x1="145" y1="60" x2="145" y2="130" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stopColor="#5B9BD5" />
             <stop offset="100%" stopColor="#003366" />
           </linearGradient>
         </defs>
-        <text x="145" y="120" fontFamily="Inter, sans-serif" fontWeight="800" fontSize="105" letterSpacing="-4" fill="url(#vmsGradient)">VMS</text>
+        <text x="145" y="135" fontFamily="Inter, sans-serif" fontWeight="800" fontSize="105" letterSpacing="-4" fill="url(#vmsGradient)">VMS</text>
         
         {/* Divider Line */}
-        <line x1="140" y1="140" x2="380" y2="140" stroke="#003366" strokeWidth="3" />
+        <line x1="140" y1="155" x2="390" y2="155" stroke="#003366" strokeWidth="3" />
         
         {/* Subtext */}
-        <text x="145" y="170" fontFamily="Inter, sans-serif" fontWeight="500" fontSize="26" fill="#003366">
+        <text x="145" y="185" fontFamily="Inter, sans-serif" fontWeight="500" fontSize="26" fill="#003366">
           <tspan fill="#2D6BA3">Validation Management</tspan> <tspan fontWeight="700" fill="#002D56">Solutions</tspan>
         </text>
       </svg>
@@ -84,10 +84,10 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-2' : 'bg-transparent py-6'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <div className={`transition-all duration-300 ${isScrolled ? 'brightness-100' : 'brightness-0 invert'}`}>
-          <Logo className="h-12 md:h-14" isScrolled={isScrolled} />
+        <div className={`transition-all duration-300 flex items-center ${isScrolled ? 'brightness-100' : 'brightness-0 invert'}`}>
+          <Logo className="h-10 md:h-12" isScrolled={isScrolled} />
         </div>
 
         {/* Desktop Nav */}
