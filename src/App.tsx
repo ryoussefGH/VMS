@@ -22,9 +22,14 @@ import {
   Mail,
   Phone,
   MapPin,
-  Globe
+  Globe,
+  Upload,
+  Plus,
+  Trash2,
+  BookOpen
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import Markdown from 'react-markdown';
 
 const Logo = ({ className = "h-12", variant = "default" }: { className?: string, variant?: 'default' | 'white' }) => {
   const primaryColor = variant === 'white' ? '#FFFFFF' : '#003366';
@@ -87,6 +92,7 @@ const Navbar = () => {
     { name: 'Services', href: '#services' },
     { name: 'About', href: '#about' },
     { name: 'Approach', href: '#approach' },
+    { name: 'Articles', href: '#articles' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -689,6 +695,237 @@ const Testimonials = () => {
   );
 };
 
+const ArticlesSection = () => {
+  const [articles, setArticles] = useState<any[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const [newArticle, setNewArticle] = useState({ title: '', content: '', author: '', category: 'Technical', password: '' });
+  const [selectedArticle, setSelectedArticle] = useState<any>(null);
+
+  const fetchArticles = async () => {
+    try {
+      const res = await fetch('/api/articles');
+      const data = await res.json();
+      setArticles(data);
+    } catch (error) {
+      console.error("Failed to fetch articles", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchArticles();
+  }, []);
+
+  const handleUpload = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await fetch('/api/articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newArticle),
+      });
+      if (res.ok) {
+        setNewArticle({ title: '', content: '', author: '', category: 'Technical', password: '' });
+        setIsUploading(false);
+        fetchArticles();
+      } else {
+        const error = await res.json();
+        alert(error.error || "Failed to upload article");
+      }
+    } catch (error) {
+      console.error("Failed to upload article", error);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    const password = prompt("Enter admin password to delete:");
+    if (!password) return;
+    
+    try {
+      const res = await fetch(`/api/articles/${id}`, { 
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      
+      if (res.ok) {
+        fetchArticles();
+        if (selectedArticle?.id === id) setSelectedArticle(null);
+      } else {
+        const error = await res.json();
+        alert(error.error || "Failed to delete article");
+      }
+    } catch (error) {
+      console.error("Failed to delete article", error);
+    }
+  };
+
+  return (
+    <section id="articles" className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex justify-between items-end mb-12">
+          <div>
+            <h2 className="text-xs font-bold text-blue-600 uppercase tracking-[0.2em] mb-4">Knowledge Base</h2>
+            <h3 className="text-4xl font-bold text-slate-900 tracking-tight">Technical Articles & Insights</h3>
+          </div>
+          <button 
+            onClick={() => setIsUploading(!isUploading)}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all shadow-lg shadow-blue-600/20"
+          >
+            {isUploading ? <X size={20} /> : <Plus size={20} />}
+            {isUploading ? 'Cancel' : 'Upload Article'}
+          </button>
+        </div>
+
+        <AnimatePresence>
+          {isUploading && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mb-12 overflow-hidden"
+            >
+              <form onSubmit={handleUpload} className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 space-y-6">
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Title</label>
+                    <input 
+                      required
+                      value={newArticle.title}
+                      onChange={e => setNewArticle({...newArticle, title: e.target.value})}
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" 
+                      placeholder="Article Title" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Author</label>
+                    <input 
+                      required
+                      value={newArticle.author}
+                      onChange={e => setNewArticle({...newArticle, author: e.target.value})}
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" 
+                      placeholder="Author Name" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Category</label>
+                    <select 
+                      value={newArticle.category}
+                      onChange={e => setNewArticle({...newArticle, category: e.target.value})}
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500"
+                    >
+                      <option>Technical</option>
+                      <option>Regulatory</option>
+                      <option>Case Study</option>
+                      <option>Industry News</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Admin Password</label>
+                    <input 
+                      required
+                      type="password"
+                      value={newArticle.password}
+                      onChange={e => setNewArticle({...newArticle, password: e.target.value})}
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" 
+                      placeholder="••••••••" 
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Content (Markdown supported)</label>
+                  <textarea 
+                    required
+                    rows={8}
+                    value={newArticle.content}
+                    onChange={e => setNewArticle({...newArticle, content: e.target.value})}
+                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 font-mono text-sm" 
+                    placeholder="# Your Article Content..."
+                  />
+                </div>
+                <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-4 rounded-xl transition-all flex items-center gap-2">
+                  <Upload size={20} />
+                  Publish Article
+                </button>
+              </form>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <div className="grid lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-1 space-y-4">
+            {articles.length === 0 && (
+              <div className="p-8 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-200">
+                <BookOpen size={40} className="mx-auto text-slate-300 mb-4" />
+                <p className="text-slate-500 text-sm">No articles published yet.</p>
+              </div>
+            )}
+            {articles.map((article) => (
+              <div 
+                key={article.id}
+                onClick={() => setSelectedArticle(article)}
+                className={`p-6 rounded-2xl border transition-all cursor-pointer group ${selectedArticle?.id === article.id ? 'bg-blue-600 border-blue-600 text-white shadow-xl shadow-blue-600/20' : 'bg-white border-slate-100 hover:border-blue-200 hover:shadow-lg'}`}
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-md ${selectedArticle?.id === article.id ? 'bg-white/20 text-white' : 'bg-blue-50 text-blue-600'}`}>
+                    {article.category}
+                  </span>
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); handleDelete(article.id); }}
+                    className={`opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-md ${selectedArticle?.id === article.id ? 'hover:bg-white/20 text-white' : 'hover:bg-red-50 text-red-500'}`}
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+                <h4 className="font-bold mb-2 line-clamp-2">{article.title}</h4>
+                <div className={`text-xs flex items-center gap-2 ${selectedArticle?.id === article.id ? 'text-white/70' : 'text-slate-400'}`}>
+                  <span>{article.author}</span>
+                  <span>•</span>
+                  <span>{new Date(article.created_at).toLocaleDateString()}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="lg:col-span-2">
+            {selectedArticle ? (
+              <motion.div 
+                key={selectedArticle.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-slate-50 p-10 rounded-[3rem] border border-slate-100 min-h-[500px]"
+              >
+                <div className="mb-8">
+                  <span className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-4 block">{selectedArticle.category}</span>
+                  <h2 className="text-3xl font-bold text-slate-900 mb-4">{selectedArticle.title}</h2>
+                  <div className="flex items-center gap-4 text-sm text-slate-500">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs">
+                        {selectedArticle.author[0]}
+                      </div>
+                      <span className="font-medium">{selectedArticle.author}</span>
+                    </div>
+                    <span>•</span>
+                    <span>{new Date(selectedArticle.created_at).toLocaleDateString()}</span>
+                  </div>
+                </div>
+                <div className="markdown-body prose prose-slate max-w-none">
+                  <Markdown>{selectedArticle.content}</Markdown>
+                </div>
+              </motion.div>
+            ) : (
+              <div className="h-full min-h-[500px] bg-slate-50 rounded-[3rem] border border-dashed border-slate-200 flex flex-col items-center justify-center text-slate-400 p-12 text-center">
+                <BookOpen size={64} className="mb-6 opacity-20" />
+                <h4 className="text-xl font-bold mb-2">Select an article to read</h4>
+                <p className="text-sm max-w-xs">Explore our technical insights and regulatory updates from the sidebar.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 export default function App() {
   return (
     <div className="min-h-screen bg-white font-sans selection:bg-blue-100 selection:text-blue-900">
@@ -700,6 +937,7 @@ export default function App() {
         <Services />
         <Process />
         <Approach />
+        <ArticlesSection />
         <Testimonials />
         <Contact />
       </main>
