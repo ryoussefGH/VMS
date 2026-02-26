@@ -30,6 +30,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import Markdown from 'react-markdown';
+import { GoogleGenAI, Type } from "@google/genai";
 
 const Logo = ({ className = "h-12", variant = "default" }: { className?: string, variant?: 'default' | 'white' }) => {
   const primaryColor = variant === 'white' ? '#FFFFFF' : '#003366';
@@ -700,6 +701,8 @@ const ArticlesSection = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [newArticle, setNewArticle] = useState({ title: '', content: '', author: '', category: 'Technical', password: '' });
   const [selectedArticle, setSelectedArticle] = useState<any>(null);
+  const [importUrl, setImportUrl] = useState('');
+  const [isImporting, setIsImporting] = useState(false);
 
   const fetchArticles = async () => {
     try {
@@ -714,6 +717,48 @@ const ArticlesSection = () => {
   useEffect(() => {
     fetchArticles();
   }, []);
+
+  const handleImport = async () => {
+    if (!importUrl) return;
+    setIsImporting(true);
+    try {
+      const ai = new GoogleGenAI({ apiKey: (process.env.GEMINI_API_KEY as string) });
+      const response = await ai.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: `Extract the article content from this LinkedIn URL: ${importUrl}. 
+        Return the result as a JSON object with the following fields: title, author, category (one of: Technical, Regulatory, Case Study, Industry News), and content (in Markdown format).`,
+        config: {
+          tools: [{ urlContext: {} }],
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: Type.OBJECT,
+            properties: {
+              title: { type: Type.STRING },
+              author: { type: Type.STRING },
+              category: { type: Type.STRING },
+              content: { type: Type.STRING }
+            },
+            required: ["title", "author", "category", "content"]
+          }
+        }
+      });
+
+      const data = JSON.parse(response.text || '{}');
+      setNewArticle({
+        ...newArticle,
+        title: data.title || '',
+        author: data.author || '',
+        category: data.category || 'Technical',
+        content: data.content || ''
+      });
+      setImportUrl('');
+    } catch (error) {
+      console.error("Failed to import article", error);
+      alert("Failed to import article from URL. Please check the URL and try again.");
+    } finally {
+      setIsImporting(false);
+    }
+  };
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -784,7 +829,33 @@ const ArticlesSection = () => {
               exit={{ opacity: 0, height: 0 }}
               className="mb-12 overflow-hidden"
             >
-              <form onSubmit={handleUpload} className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 space-y-6">
+              <div className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 space-y-8">
+                {/* URL Import Field */}
+                <div className="space-y-4">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Import from LinkedIn URL</label>
+                  <div className="flex gap-4">
+                    <input 
+                      value={importUrl}
+                      onChange={e => setImportUrl(e.target.value)}
+                      className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" 
+                      placeholder="https://www.linkedin.com/pulse/..." 
+                    />
+                    <button 
+                      type="button"
+                      onClick={handleImport}
+                      disabled={isImporting || !importUrl}
+                      className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all disabled:opacity-50"
+                    >
+                      {isImporting ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : <Globe size={20} />}
+                      {isImporting ? 'Importing...' : 'Fetch Content'}
+                    </button>
+                  </div>
+                  <p className="text-[10px] text-slate-400 italic">This will use AI to extract the title, author, and content from the provided URL.</p>
+                </div>
+
+                <div className="h-px bg-slate-200"></div>
+
+                <form onSubmit={handleUpload} className="space-y-6">
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Title</label>
@@ -847,6 +918,7 @@ const ArticlesSection = () => {
                   Publish Article
                 </button>
               </form>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
