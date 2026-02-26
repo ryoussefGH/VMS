@@ -704,6 +704,13 @@ const ArticlesSection = () => {
   const [importUrl, setImportUrl] = useState('');
   const [isImporting, setIsImporting] = useState(false);
 
+  const calculateReadingTime = (text: string) => {
+    const wordsPerMinute = 200;
+    const words = text.split(/\s+/).length;
+    const minutes = Math.ceil(words / wordsPerMinute);
+    return minutes;
+  };
+
   const fetchArticles = async () => {
     try {
       const res = await fetch('/api/articles');
@@ -935,24 +942,35 @@ const ArticlesSection = () => {
               <div 
                 key={article.id}
                 onClick={() => setSelectedArticle(article)}
-                className={`p-6 rounded-2xl border transition-all cursor-pointer group ${selectedArticle?.id === article.id ? 'bg-blue-600 border-blue-600 text-white shadow-xl shadow-blue-600/20' : 'bg-white border-slate-100 hover:border-blue-200 hover:shadow-lg'}`}
+                className={`p-6 rounded-2xl border transition-all cursor-pointer group relative overflow-hidden ${selectedArticle?.id === article.id ? 'bg-slate-900 border-slate-900 text-white shadow-2xl shadow-slate-900/20 scale-[1.02]' : 'bg-white border-slate-100 hover:border-blue-200 hover:shadow-xl hover:shadow-slate-200/50'}`}
               >
-                <div className="flex justify-between items-start mb-3">
-                  <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-md ${selectedArticle?.id === article.id ? 'bg-white/20 text-white' : 'bg-blue-50 text-blue-600'}`}>
+                {selectedArticle?.id === article.id && (
+                  <motion.div 
+                    layoutId="activeArticle"
+                    className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-transparent pointer-events-none"
+                  />
+                )}
+                <div className="flex justify-between items-start mb-4 relative z-10">
+                  <span className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-lg border ${selectedArticle?.id === article.id ? 'bg-white/10 border-white/20 text-white' : 'bg-blue-50 border-blue-100 text-blue-600'}`}>
                     {article.category}
                   </span>
                   <button 
                     onClick={(e) => { e.stopPropagation(); handleDelete(article.id); }}
-                    className={`opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-md ${selectedArticle?.id === article.id ? 'hover:bg-white/20 text-white' : 'hover:bg-red-50 text-red-500'}`}
+                    className={`opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded-lg ${selectedArticle?.id === article.id ? 'hover:bg-white/20 text-white' : 'hover:bg-red-50 text-red-500'}`}
                   >
                     <Trash2 size={14} />
                   </button>
                 </div>
-                <h4 className="font-bold mb-2 line-clamp-2">{article.title}</h4>
-                <div className={`text-xs flex items-center gap-2 ${selectedArticle?.id === article.id ? 'text-white/70' : 'text-slate-400'}`}>
-                  <span>{article.author}</span>
-                  <span>•</span>
-                  <span>{new Date(article.created_at).toLocaleDateString()}</span>
+                <h4 className="font-bold mb-3 line-clamp-2 leading-snug relative z-10">{article.title}</h4>
+                <div className={`text-[11px] flex items-center gap-3 relative z-10 ${selectedArticle?.id === article.id ? 'text-white/60' : 'text-slate-400'}`}>
+                  <div className="flex items-center gap-1.5">
+                    <Users size={12} />
+                    <span>{article.author}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Activity size={12} />
+                    <span>{calculateReadingTime(article.content)} min</span>
+                  </div>
                 </div>
               </div>
             ))}
@@ -964,24 +982,66 @@ const ArticlesSection = () => {
                 key={selectedArticle.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-slate-50 p-10 rounded-[3rem] border border-slate-100 min-h-[500px]"
+                className="bg-white p-8 md:p-16 rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/50 min-h-[600px] relative overflow-hidden"
               >
-                <div className="mb-8">
-                  <span className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-4 block">{selectedArticle.category}</span>
-                  <h2 className="text-3xl font-bold text-slate-900 mb-4">{selectedArticle.title}</h2>
-                  <div className="flex items-center gap-4 text-sm text-slate-500">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs">
-                        {selectedArticle.author[0]}
+                {/* Editorial Accent */}
+                <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
+                
+                <div className="max-w-3xl mx-auto">
+                  <div className="mb-12">
+                    <div className="flex items-center gap-3 mb-6">
+                      <span className="px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-widest border border-blue-100">
+                        {selectedArticle.category}
+                      </span>
+                      <div className="flex items-center gap-1.5 text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+                        <Activity size={12} />
+                        <span>{calculateReadingTime(selectedArticle.content)} min read</span>
                       </div>
-                      <span className="font-medium">{selectedArticle.author}</span>
                     </div>
-                    <span>•</span>
-                    <span>{new Date(selectedArticle.created_at).toLocaleDateString()}</span>
+                    
+                    <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8 leading-tight tracking-tight">
+                      {selectedArticle.title}
+                    </h2>
+                    
+                    <div className="flex items-center justify-between py-6 border-y border-slate-100">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-200">
+                          {selectedArticle.author[0]}
+                        </div>
+                        <div>
+                          <div className="font-bold text-slate-900 leading-none mb-1">{selectedArticle.author}</div>
+                          <div className="text-xs text-slate-500">Subject Matter Expert</div>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Published</div>
+                        <div className="text-sm font-medium text-slate-900">
+                          {new Date(selectedArticle.created_at).toLocaleDateString('en-US', { 
+                            month: 'long', 
+                            day: 'numeric', 
+                            year: 'numeric' 
+                          })}
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="markdown-body prose prose-slate max-w-none">
-                  <Markdown>{selectedArticle.content}</Markdown>
+
+                  <div className="prose prose-slate prose-lg max-w-none prose-headings:text-slate-900 prose-headings:font-bold prose-p:text-slate-600 prose-p:leading-relaxed prose-a:text-blue-600 prose-strong:text-slate-900 prose-img:rounded-3xl font-serif">
+                    <Markdown>{selectedArticle.content}</Markdown>
+                  </div>
+
+                  {/* Article Footer */}
+                  <div className="mt-16 pt-8 border-t border-slate-100 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <button className="text-slate-400 hover:text-blue-600 transition-colors">
+                        <span className="sr-only">Share</span>
+                        <Globe size={20} />
+                      </button>
+                    </div>
+                    <div className="text-xs text-slate-400 italic">
+                      © {new Date().getFullYear()} Validation Management Solutions. All rights reserved.
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             ) : (
