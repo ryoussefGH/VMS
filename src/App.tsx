@@ -98,7 +98,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-6'}`}>
+    <nav className={`transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <Logo className="h-10 md:h-12" variant={isScrolled ? 'default' : 'white'} />
 
@@ -160,7 +160,7 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-slate-950">
+    <section className="relative min-h-screen flex items-center pt-32 overflow-hidden bg-slate-950">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:40px_40px]"></div>
@@ -379,16 +379,16 @@ const Approach = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-4 pt-12">
                 <div className="aspect-square rounded-3xl bg-blue-600 p-8 text-white flex flex-col justify-end">
-                  <div className="text-4xl font-bold mb-2">15+</div>
+                  <div className="text-4xl font-bold mb-2">25+</div>
                   <div className="text-sm font-medium opacity-80">Years of Experience</div>
                 </div>
                 <div className="aspect-[4/5] rounded-3xl bg-slate-900 overflow-hidden">
-                  <img src="https://picsum.photos/seed/lab1/600/800" alt="Laboratory" className="w-full h-full object-cover opacity-60" referrerPolicy="no-referrer" />
+                  <img src="https://picsum.photos/seed/vms-lab-1/800/1000" alt="Technical Validation" className="w-full h-full object-cover opacity-70" referrerPolicy="no-referrer" />
                 </div>
               </div>
               <div className="space-y-4">
                 <div className="aspect-[4/5] rounded-3xl bg-slate-200 overflow-hidden">
-                  <img src="https://picsum.photos/seed/lab2/600/800" alt="Validation" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  <img src="https://picsum.photos/seed/vms-lab-2/800/1000" alt="Scientific Research" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 </div>
                 <div className="aspect-square rounded-3xl bg-white border border-slate-200 p-8 flex flex-col justify-center items-center text-center">
                   <Globe className="text-blue-600 mb-4" size={40} />
@@ -422,19 +422,19 @@ const Contact = () => {
                   <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
                     <Mail size={20} className="text-blue-400" />
                   </div>
-                  <span>hello@vms-validation.com</span>
+                  <span>contact@validationms.com</span>
                 </div>
                 <div className="flex items-center gap-4 text-slate-300">
                   <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
                     <Phone size={20} className="text-blue-400" />
                   </div>
-                  <span>+1 (555) 123-4567</span>
+                  <span>+1 610.554.3941</span>
                 </div>
                 <div className="flex items-center gap-4 text-slate-300">
                   <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
                     <MapPin size={20} className="text-blue-400" />
                   </div>
-                  <span>Boston, MA | Research Triangle Park, NC</span>
+                  <span>Allentown, PA</span>
                 </div>
               </div>
             </div>
@@ -563,10 +563,10 @@ const About = () => {
           
           <div className="relative">
             <div className="aspect-video rounded-[2rem] overflow-hidden shadow-2xl">
-              <img src="https://picsum.photos/seed/vms-team/800/600" alt="VMS Team" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+              <img src="https://picsum.photos/seed/vms-validation-tech/1200/800" alt="VMS Thermal Validation" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
             </div>
             <div className="absolute -bottom-6 -right-6 bg-blue-600 text-white p-8 rounded-3xl shadow-xl hidden md:block">
-              <div className="text-3xl font-bold mb-1">15+</div>
+              <div className="text-3xl font-bold mb-1">25+</div>
               <div className="text-xs font-bold uppercase tracking-wider opacity-80">Years of Excellence</div>
             </div>
           </div>
@@ -1027,7 +1027,11 @@ const ArticlesSection = () => {
                   </div>
 
                   <div className="prose prose-slate prose-lg max-w-none prose-headings:text-slate-900 prose-headings:font-bold prose-p:text-slate-600 prose-p:leading-relaxed prose-a:text-blue-600 prose-strong:text-slate-900 prose-img:rounded-3xl font-serif">
-                    <Markdown>{selectedArticle.content}</Markdown>
+                    <Markdown components={{
+                      img: ({node, ...props}) => <img {...props} referrerPolicy="no-referrer" />
+                    }}>
+                      {selectedArticle.content}
+                    </Markdown>
                   </div>
 
                   {/* Article Footer */}
@@ -1058,10 +1062,70 @@ const ArticlesSection = () => {
   );
 };
 
+const NewsTicker = () => {
+  const [news, setNews] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const res = await fetch('/api/news');
+        const data = await res.json();
+        setNews(data);
+      } catch (error) {
+        console.error("Failed to fetch news", error);
+      }
+    };
+    fetchNews();
+    const interval = setInterval(fetchNews, 300000); // Refresh every 5 mins
+    return () => clearInterval(interval);
+  }, []);
+
+  if (news.length === 0) return null;
+
+  return (
+    <div className="bg-slate-900 text-white py-2 overflow-hidden border-b border-white/10 relative z-[60]">
+      <div className="max-w-7xl mx-auto px-6 flex items-center">
+        <div className="flex-shrink-0 bg-blue-600 text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded mr-4 flex items-center gap-1">
+          <Activity size={10} />
+          Live Feed
+        </div>
+        <div className="flex-1 relative h-5 overflow-hidden">
+          <motion.div 
+            animate={{ x: [0, -2000] }}
+            transition={{ 
+              duration: 40, 
+              repeat: Infinity, 
+              ease: "linear" 
+            }}
+            className="flex whitespace-nowrap gap-12 absolute left-0"
+          >
+            {/* Repeat news items to ensure continuous loop */}
+            {[...news, ...news].map((item, i) => (
+              <a 
+                key={i} 
+                href={item.link} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-xs font-medium hover:text-blue-400 transition-colors flex items-center gap-2"
+              >
+                <span className="w-1 h-1 rounded-full bg-blue-500"></span>
+                {item.title}
+              </a>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function App() {
   return (
     <div className="min-h-screen bg-white font-sans selection:bg-blue-100 selection:text-blue-900">
-      <Navbar />
+      <header className="fixed top-0 left-0 right-0 z-50">
+        <NewsTicker />
+        <Navbar />
+      </header>
       <main>
         <Hero />
         <About />

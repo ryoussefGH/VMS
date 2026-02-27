@@ -3,11 +3,13 @@ import { createServer as createViteServer } from "vite";
 import Database from "better-sqlite3";
 import path from "path";
 import { fileURLToPath } from "url";
+import Parser from "rss-parser";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const db = new Database("articles.db");
+const parser = new Parser();
 
 // Initialize database
 db.exec(`
@@ -28,6 +30,20 @@ async function startServer() {
   app.use(express.json());
 
   // API Routes
+  app.get("/api/news", async (req, res) => {
+    try {
+      const feed = await parser.parseURL('https://www.drugs.com/feeds/headline_news.xml');
+      res.json(feed.items.map(item => ({
+        title: item.title,
+        link: item.link,
+        pubDate: item.pubDate
+      })));
+    } catch (error) {
+      console.error("Failed to fetch news feed", error);
+      res.status(500).json({ error: "Failed to fetch news feed" });
+    }
+  });
+
   app.get("/api/articles", (req, res) => {
     try {
       const articles = db.prepare("SELECT * FROM articles ORDER BY created_at DESC").all();
