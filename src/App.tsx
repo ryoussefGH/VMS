@@ -383,12 +383,12 @@ const Approach = () => {
                   <div className="text-sm font-medium opacity-80">Years of Experience</div>
                 </div>
                 <div className="aspect-[4/5] rounded-3xl bg-slate-900 overflow-hidden">
-                  <img src="https://picsum.photos/seed/vms-lab-1/800/1000" alt="Technical Validation" className="w-full h-full object-cover opacity-70" referrerPolicy="no-referrer" />
+                  <img src="https://picsum.photos/seed/validation-hardware/800/1000" alt="Technical Validation" className="w-full h-full object-cover opacity-70" referrerPolicy="no-referrer" />
                 </div>
               </div>
               <div className="space-y-4">
                 <div className="aspect-[4/5] rounded-3xl bg-slate-200 overflow-hidden">
-                  <img src="https://picsum.photos/seed/vms-lab-2/800/1000" alt="Scientific Research" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  <img src="https://picsum.photos/seed/laboratory-sensors/800/1000" alt="Scientific Research" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 </div>
                 <div className="aspect-square rounded-3xl bg-white border border-slate-200 p-8 flex flex-col justify-center items-center text-center">
                   <Globe className="text-blue-600 mb-4" size={40} />
@@ -476,7 +476,7 @@ const Contact = () => {
   );
 };
 
-const Footer = () => {
+const Footer = ({ onOpenMedia }: { onOpenMedia: () => void }) => {
   return (
     <footer className="bg-slate-50 pt-20 pb-10 border-t border-slate-200">
       <div className="max-w-7xl mx-auto px-6">
@@ -497,6 +497,7 @@ const Footer = () => {
               <li><a href="#about" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">About Us</a></li>
               <li><a href="#approach" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Our Approach</a></li>
               <li><a href="#contact" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Contact</a></li>
+              <li><button onClick={onOpenMedia} className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Media Manager</button></li>
             </ul>
           </div>
           
@@ -563,7 +564,7 @@ const About = () => {
           
           <div className="relative">
             <div className="aspect-video rounded-[2rem] overflow-hidden shadow-2xl">
-              <img src="https://picsum.photos/seed/vms-validation-tech/1200/800" alt="VMS Thermal Validation" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+              <img src="https://picsum.photos/seed/thermal-mapping-equipment/1200/800" alt="VMS Thermal Validation" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
             </div>
             <div className="absolute -bottom-6 -right-6 bg-blue-600 text-white p-8 rounded-3xl shadow-xl hidden md:block">
               <div className="text-3xl font-bold mb-1">25+</div>
@@ -1091,9 +1092,9 @@ const NewsTicker = () => {
         </div>
         <div className="flex-1 relative h-5 overflow-hidden">
           <motion.div 
-            animate={{ x: [0, -2000] }}
+            animate={{ x: ["0%", "-50%"] }}
             transition={{ 
-              duration: 40, 
+              duration: news.length * 5, // Dynamic duration based on item count
               repeat: Infinity, 
               ease: "linear" 
             }}
@@ -1109,6 +1110,7 @@ const NewsTicker = () => {
                 className="text-xs font-medium hover:text-blue-400 transition-colors flex items-center gap-2"
               >
                 <span className="w-1 h-1 rounded-full bg-blue-500"></span>
+                <span className="opacity-50 text-[10px] uppercase font-bold">{item.source}</span>
                 {item.title}
               </a>
             ))}
@@ -1119,7 +1121,144 @@ const NewsTicker = () => {
   );
 };
 
+const MediaManager = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleUpload = async () => {
+    if (!file) return;
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.url) {
+        setUploadedUrl(data.url);
+      }
+    } catch (error) {
+      console.error("Upload failed", error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+      <motion.div 
+        initial={{ opacity: 0 }} 
+        animate={{ opacity: 1 }} 
+        exit={{ opacity: 0 }}
+        className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      <motion.div 
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        className="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-lg overflow-hidden"
+      >
+        <div className="p-8 border-b border-slate-100 flex justify-between items-center">
+          <h3 className="text-xl font-bold text-slate-900">Media Manager</h3>
+          <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
+            <X size={20} />
+          </button>
+        </div>
+        
+        <div className="p-8">
+          {!uploadedUrl ? (
+            <div className="space-y-6">
+              <div 
+                onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                onDragLeave={() => setIsDragging(false)}
+                onDrop={onDrop}
+                className={`border-2 border-dashed rounded-2xl p-12 text-center transition-all ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-slate-200 hover:border-blue-400'}`}
+              >
+                <div className="flex flex-col items-center">
+                  <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-4">
+                    <Upload size={32} />
+                  </div>
+                  <p className="text-slate-900 font-bold mb-1">
+                    {file ? file.name : 'Click to upload or drag and drop'}
+                  </p>
+                  <p className="text-slate-500 text-sm">PNG, JPG, WEBP up to 5MB</p>
+                  <input 
+                    type="file" 
+                    className="absolute inset-0 opacity-0 cursor-pointer" 
+                    onChange={(e) => e.target.files && setFile(e.target.files[0])}
+                    accept="image/*"
+                  />
+                </div>
+              </div>
+
+              <button 
+                onClick={handleUpload}
+                disabled={!file || uploading}
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-200 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2"
+              >
+                {uploading ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <>
+                    <Plus size={20} />
+                    Upload Image
+                  </>
+                )}
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-6 text-center">
+              <div className="aspect-video rounded-xl overflow-hidden bg-slate-100 border border-slate-200">
+                <img src={uploadedUrl} alt="Uploaded" className="w-full h-full object-contain" />
+              </div>
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Image URL</p>
+                <div className="flex items-center gap-2">
+                  <input 
+                    readOnly 
+                    value={uploadedUrl} 
+                    className="flex-1 bg-transparent text-sm font-mono text-slate-600 focus:outline-none"
+                  />
+                  <button 
+                    onClick={() => navigator.clipboard.writeText(uploadedUrl)}
+                    className="p-2 hover:bg-slate-200 rounded-lg transition-colors text-blue-600"
+                  >
+                    <ClipboardCheck size={16} />
+                  </button>
+                </div>
+              </div>
+              <button 
+                onClick={() => { setUploadedUrl(null); setFile(null); }}
+                className="text-blue-600 font-bold text-sm hover:underline"
+              >
+                Upload another image
+              </button>
+            </div>
+          )}
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
 export default function App() {
+  const [isMediaManagerOpen, setIsMediaManagerOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-white font-sans selection:bg-blue-100 selection:text-blue-900">
       <header className="fixed top-0 left-0 right-0 z-50">
@@ -1137,7 +1276,16 @@ export default function App() {
         <Testimonials />
         <Contact />
       </main>
-      <Footer />
+      <Footer onOpenMedia={() => setIsMediaManagerOpen(true)} />
+      
+      <AnimatePresence>
+        {isMediaManagerOpen && (
+          <MediaManager 
+            isOpen={isMediaManagerOpen} 
+            onClose={() => setIsMediaManagerOpen(false)} 
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
