@@ -93,7 +93,7 @@ const Navbar = () => {
     { name: 'Services', href: '#services' },
     { name: 'About', href: '#about' },
     { name: 'Approach', href: '#approach' },
-    { name: 'Articles', href: '#articles' },
+    // { name: 'Articles', href: '#articles' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -544,7 +544,7 @@ const About = () => {
               In highly regulated environments, execution is everything. FDA and EMA compliance does not allow for silos, rework, or micromanagement. Our clients trust us because we get the job done right the first time — independently, thoroughly, and audit-ready.
             </p>
             
-            <div className="grid grid-cols-2 gap-8">
+            <div className="space-y-8">
               <div>
                 <h4 className="font-bold text-slate-900 mb-2">Our Mission</h4>
                 <p className="text-sm text-slate-500">Our mission is to deliver flawless validation execution through accountable, high-performing teams. We eliminate friction between commissioning and validation and provide clients with the confidence that their critical systems are qualified correctly, efficiently, and without supervision.</p>
@@ -553,6 +553,42 @@ const About = () => {
                 <h4 className="font-bold text-slate-900 mb-2">Our Purpose</h4>
                 <p className="text-sm text-slate-500">We exist to ensure right-first-time validation in regulated life sciences environments. We believe compliance should be seamless, disciplined, and built on true accountability — not fragmented handoffs or consultant dependency.</p>
               </div>
+
+              <div className="pt-4">
+                <h4 className="font-bold text-slate-900 mb-4">Our Core Values</h4>
+                <p className="text-sm text-slate-600 mb-6">Everything we do is guided by four non-negotiable principles:</p>
+                <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
+                  <div>
+                    <h5 className="font-bold text-blue-600 text-sm mb-1">People First</h5>
+                    <p className="text-xs text-slate-500">We build cohesive teams that support one another and our clients. Excellence begins with trust.</p>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-blue-600 text-sm mb-1">Do What You Say</h5>
+                    <p className="text-xs text-slate-500">Integrity is not optional. Our word and our work always align.</p>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-blue-600 text-sm mb-1">Get It Done Right</h5>
+                    <p className="text-xs text-slate-500">Precision matters. We execute with discipline, attention to detail, and ownership.</p>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-blue-600 text-sm mb-1">Develop Others</h5>
+                    <p className="text-xs text-slate-500">We mentor, teach, and elevate the people around us. Strong teams create lasting results.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-12 pt-8 border-t border-slate-100">
+              <div className="text-slate-300 mb-6 text-2xl tracking-widest">⸻</div>
+              <p className="text-slate-700 mb-4 font-semibold">
+                VMS is not a staffing firm. We are not seat-fillers.
+              </p>
+              <p className="text-slate-600 mb-6 leading-relaxed">
+                We are a validation execution partner built on technical depth, seamless integration, and uncompromising standards.
+              </p>
+              <p className="text-blue-600 font-bold text-lg">
+                When the work must be done right the first time — VMS delivers.
+              </p>
             </div>
           </motion.div>
           
@@ -1088,7 +1124,7 @@ const NewsTicker = () => {
           <motion.div 
             animate={{ x: ["0%", "-50%"] }}
             transition={{ 
-              duration: news.length * 5, // Dynamic duration based on item count
+              duration: news.length * 15, // Slower duration (increased from 5 to 15)
               repeat: Infinity, 
               ease: "linear" 
             }}
@@ -1283,7 +1319,7 @@ export default function App() {
         <Services />
         <Process />
         <Approach />
-        <ArticlesSection />
+        {/* <ArticlesSection /> */}
         <Testimonials />
         <Contact />
       </main>
