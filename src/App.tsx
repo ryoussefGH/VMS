@@ -383,7 +383,7 @@ const Approach = () => {
                   <div className="text-sm font-medium opacity-80">Years of Experience</div>
                 </div>
                 <div className="aspect-[4/5] rounded-3xl bg-slate-900 overflow-hidden">
-                  <img src="/uploads/devices.jpg" alt="Technical Validation" className="w-full h-full object-cover opacity-70" referrerPolicy="no-referrer" />
+                  <img src="/uploads/software.jpg" alt="Technical Validation" className="w-full h-full object-cover opacity-70" referrerPolicy="no-referrer" />
                 </div>
               </div>
               <div className="space-y-4">
