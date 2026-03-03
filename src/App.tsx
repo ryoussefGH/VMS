@@ -426,12 +426,6 @@ const Contact = () => {
                 </div>
                 <div className="flex items-center gap-4 text-slate-300">
                   <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
-                    <Phone size={20} className="text-blue-400" />
-                  </div>
-                  <span>+1 610.554.3941</span>
-                </div>
-                <div className="flex items-center gap-4 text-slate-300">
-                  <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
                     <MapPin size={20} className="text-blue-400" />
                   </div>
                   <span>Allentown, PA</span>
@@ -542,22 +536,22 @@ const About = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-xs font-bold text-blue-600 uppercase tracking-[0.2em] mb-4">About VMS</h2>
-            <h3 className="text-4xl font-bold text-slate-900 mb-6 tracking-tight">Your Partner in Regulatory Compliance</h3>
+            <h3 className="text-4xl font-bold text-slate-900 mb-6 tracking-tight">Precision-Driven Validation Execution</h3>
             <p className="text-slate-600 text-lg mb-6 leading-relaxed">
-              Validation Management Solutions (VMS) was founded on the principle that compliance shouldn't be a bottleneck. We provide high-level technical expertise to the life sciences industry, ensuring that facilities, utilities, and equipment meet the most stringent regulatory requirements.
+              VMS is a precision-driven validation execution firm serving the life sciences industry. We specialize in temperature mapping and equipment qualification, delivering seamless commissioning-to-validation transitions with right-first-time, zero-supervision execution.
             </p>
             <p className="text-slate-600 mb-8 leading-relaxed">
-              Our team of specialists brings decades of combined experience in CQV, thermal mapping, and quality systems. We work as an extension of your team, providing the documentation and execution support needed to stay audit-ready 365 days a year.
+              In highly regulated environments, execution is everything. FDA and EMA compliance does not allow for silos, rework, or micromanagement. Our clients trust us because we get the job done right the first time — independently, thoroughly, and audit-ready.
             </p>
             
             <div className="grid grid-cols-2 gap-8">
               <div>
                 <h4 className="font-bold text-slate-900 mb-2">Our Mission</h4>
-                <p className="text-sm text-slate-500">To deliver risk-based validation solutions that ensure patient safety and product quality through technical excellence.</p>
+                <p className="text-sm text-slate-500">Our mission is to deliver flawless validation execution through accountable, high-performing teams. We eliminate friction between commissioning and validation and provide clients with the confidence that their critical systems are qualified correctly, efficiently, and without supervision.</p>
               </div>
               <div>
-                <h4 className="font-bold text-slate-900 mb-2">Our Vision</h4>
-                <p className="text-sm text-slate-500">To be the most trusted validation partner for life science innovators globally.</p>
+                <h4 className="font-bold text-slate-900 mb-2">Our Purpose</h4>
+                <p className="text-sm text-slate-500">We exist to ensure right-first-time validation in regulated life sciences environments. We believe compliance should be seamless, disciplined, and built on true accountability — not fragmented handoffs or consultant dependency.</p>
               </div>
             </div>
           </motion.div>
@@ -1127,9 +1121,12 @@ const MediaManager = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => voi
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
+  const [error, setError] = useState<string | null>(null);
+
   const handleUpload = async () => {
     if (!file) return;
     setUploading(true);
+    setError(null);
     const formData = new FormData();
     formData.append('image', file);
 
@@ -1138,12 +1135,19 @@ const MediaManager = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => voi
         method: 'POST',
         body: formData,
       });
+      
       const data = await res.json();
+      
+      if (!res.ok) {
+        throw new Error(data.error || 'Upload failed');
+      }
+
       if (data.url) {
         setUploadedUrl(data.url);
       }
-    } catch (error) {
-      console.error("Upload failed", error);
+    } catch (err: any) {
+      console.error("Upload failed", err);
+      setError(err.message || "An unexpected error occurred during upload.");
     } finally {
       setUploading(false);
     }
@@ -1205,6 +1209,13 @@ const MediaManager = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => voi
                   />
                 </div>
               </div>
+
+              {error && (
+                <div className="bg-red-50 border border-red-100 text-red-600 p-4 rounded-xl text-sm font-medium flex items-center gap-2">
+                  <Activity size={14} className="flex-shrink-0" />
+                  {error}
+                </div>
+              )}
 
               <button 
                 onClick={handleUpload}

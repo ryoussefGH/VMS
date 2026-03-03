@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, "public", "uploads");
+const uploadsDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
@@ -64,12 +64,25 @@ async function startServer() {
   app.use("/uploads", express.static(uploadsDir));
 
   // API Routes
-  app.post("/api/upload", upload.single("image"), (req, res) => {
-    if (!req.file) {
-      return res.status(400).json({ error: "No file uploaded" });
-    }
-    const imageUrl = `/uploads/${req.file.filename}`;
-    res.json({ url: imageUrl });
+  app.post("/api/upload", (req, res, next) => {
+    upload.single("image")(req, res, (err) => {
+      if (err instanceof multer.MulterError) {
+        console.error("Multer error:", err);
+        return res.status(400).json({ error: `Upload error: ${err.message}` });
+      } else if (err) {
+        console.error("Unknown upload error:", err);
+        return res.status(500).json({ error: err.message });
+      }
+
+      if (!req.file) {
+        console.error("No file in request");
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+
+      console.log("File uploaded successfully:", req.file.filename);
+      const imageUrl = `/uploads/${req.file.filename}`;
+      res.json({ url: imageUrl });
+    });
   });
 
   app.get("/api/news", async (req, res) => {
