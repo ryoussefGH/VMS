@@ -4,7 +4,6 @@ import Database from "better-sqlite3";
 import path from "path";
 import { fileURLToPath } from "url";
 import Parser from "rss-parser";
-import multer from "multer";
 import fs from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -18,31 +17,6 @@ if (!fs.existsSync(uploadsDir)) {
 
 const db = new Database("articles.db");
 const parser = new Parser();
-
-// Configure multer for file storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadsDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  }
-});
-
-const upload = multer({ 
-  storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
-  fileFilter: (req, file, cb) => {
-    const allowedTypes = /jpeg|jpg|png|gif|webp/;
-    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = allowedTypes.test(file.mimetype);
-    if (extname && mimetype) {
-      return cb(null, true);
-    }
-    cb(new Error("Only images are allowed"));
-  }
-});
 
 // Initialize database
 db.exec(`
@@ -62,28 +36,6 @@ async function startServer() {
 
   app.use(express.json());
   app.use("/uploads", express.static(uploadsDir));
-
-  // API Routes
-  app.post("/api/upload", (req, res, next) => {
-    upload.single("image")(req, res, (err) => {
-      if (err instanceof multer.MulterError) {
-        console.error("Multer error:", err);
-        return res.status(400).json({ error: `Upload error: ${err.message}` });
-      } else if (err) {
-        console.error("Unknown upload error:", err);
-        return res.status(500).json({ error: err.message });
-      }
-
-      if (!req.file) {
-        console.error("No file in request");
-        return res.status(400).json({ error: "No file uploaded" });
-      }
-
-      console.log("File uploaded successfully:", req.file.filename);
-      const imageUrl = `/uploads/${req.file.filename}`;
-      res.json({ url: imageUrl });
-    });
-  });
 
   app.get("/api/news", async (req, res) => {
     const feeds = [
