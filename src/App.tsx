@@ -26,7 +26,8 @@ import {
   Upload,
   Plus,
   Trash2,
-  BookOpen
+  BookOpen,
+  Quote
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import Markdown from 'react-markdown';
@@ -341,6 +342,61 @@ const Services = () => {
   );
 };
 
+const FounderSection = () => {
+  return (
+    <section className="py-24 bg-slate-50">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="relative flex flex-col items-center"
+          >
+            <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-8 border-white shadow-2xl relative">
+              <img 
+                src="/uploads/nroman.jpeg" 
+                alt="Founder" 
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+            
+            <div className="mt-8 bg-white px-8 py-4 rounded-2xl shadow-xl border border-slate-100 text-center relative z-10">
+              <div className="text-slate-900 font-bold text-xl md:text-2xl mb-1">Nathan Roman</div>
+              <div className="text-blue-600 text-xs md:text-sm font-bold uppercase tracking-wider">Principal Consultant & Founder</div>
+              <div className="absolute -top-3 -right-3 bg-blue-600 text-white p-2 rounded-xl shadow-lg">
+                <Quote size={16} />
+              </div>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="flex-1"
+          >
+            <h2 className="text-xs font-bold text-blue-600 uppercase tracking-[0.2em] mb-4">Meet Our Founder</h2>
+            <h3 className="text-4xl font-bold text-slate-900 mb-6 tracking-tight">Leading with Technical Integrity</h3>
+            <div className="space-y-6 text-slate-600 text-lg leading-relaxed">
+              <p>
+                With over two decades of experience in the life sciences industry, our founder established VMS with a single mission: to provide the technical depth and accountability that modern validation requires.
+              </p>
+              <p>
+                Having led large-scale CQV projects for top-tier pharmaceutical firms, they recognized a gap between high-level strategy and ground-level execution. VMS was built to bridge that gap, ensuring that every protocol is not just compliant, but technically sound and audit-ready.
+              </p>
+              <p className="font-semibold text-slate-900">
+                "We don't just provide resources; we provide results. Our reputation is built on the quality of our execution."
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Approach = () => {
   return (
     <section id="approach" className="py-24 bg-slate-50 overflow-hidden">
@@ -535,7 +591,6 @@ const About = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-xs font-bold text-blue-600 uppercase tracking-[0.2em] mb-4">About VMS</h2>
-            <h3 className="text-4xl font-bold text-slate-900 mb-6 tracking-tight">Precision-Driven Validation Execution</h3>
             <p className="text-slate-600 text-lg mb-6 leading-relaxed">
               VMS is a precision-driven validation execution firm serving the life sciences industry. We specialize in temperature mapping and equipment qualification, delivering seamless commissioning-to-validation transitions with right-first-time, zero-supervision execution.
             </p>
@@ -552,42 +607,6 @@ const About = () => {
                 <h4 className="font-bold text-slate-900 mb-2">Our Purpose</h4>
                 <p className="text-sm text-slate-500">We exist to ensure right-first-time validation in regulated life sciences environments. We believe compliance should be seamless, disciplined, and built on true accountability — not fragmented handoffs or consultant dependency.</p>
               </div>
-
-              <div className="pt-4">
-                <h4 className="font-bold text-slate-900 mb-4">Our Core Values</h4>
-                <p className="text-sm text-slate-600 mb-6">Everything we do is guided by four non-negotiable principles:</p>
-                <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
-                  <div>
-                    <h5 className="font-bold text-blue-600 text-sm mb-1">People First</h5>
-                    <p className="text-xs text-slate-500">We build cohesive teams that support one another and our clients. Excellence begins with trust.</p>
-                  </div>
-                  <div>
-                    <h5 className="font-bold text-blue-600 text-sm mb-1">Do What You Say</h5>
-                    <p className="text-xs text-slate-500">Integrity is not optional. Our word and our work always align.</p>
-                  </div>
-                  <div>
-                    <h5 className="font-bold text-blue-600 text-sm mb-1">Get It Done Right</h5>
-                    <p className="text-xs text-slate-500">Precision matters. We execute with discipline, attention to detail, and ownership.</p>
-                  </div>
-                  <div>
-                    <h5 className="font-bold text-blue-600 text-sm mb-1">Develop Others</h5>
-                    <p className="text-xs text-slate-500">We mentor, teach, and elevate the people around us. Strong teams create lasting results.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-12 pt-8 border-t border-slate-100">
-              <div className="text-slate-300 mb-6 text-2xl tracking-widest">⸻</div>
-              <p className="text-slate-700 mb-4 font-semibold">
-                VMS is not a staffing firm. We are not seat-fillers.
-              </p>
-              <p className="text-slate-600 mb-6 leading-relaxed">
-                We are a validation execution partner built on technical depth, seamless integration, and uncompromising standards.
-              </p>
-              <p className="text-blue-600 font-bold text-lg">
-                When the work must be done right the first time — VMS delivers.
-              </p>
             </div>
           </motion.div>
           
@@ -721,6 +740,87 @@ const Testimonials = () => {
             </motion.div>
           ))}
         </div>
+      </div>
+    </section>
+  );
+};
+
+const CoreValues = () => {
+  return (
+    <section className="py-24 bg-white border-t border-slate-100">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid lg:grid-cols-3 gap-16">
+          <div className="lg:col-span-1">
+            <h2 className="text-xs font-bold text-blue-600 uppercase tracking-[0.2em] mb-4">Our Principles</h2>
+            <h3 className="text-4xl font-bold text-slate-900 mb-6 tracking-tight">Our Core Values</h3>
+            <p className="text-slate-600 leading-relaxed">
+              Everything we do is guided by four non-negotiable principles that define our culture and our commitment to excellence.
+            </p>
+          </div>
+          
+          <div className="lg:col-span-2 grid sm:grid-cols-2 gap-12">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="space-y-3"
+            >
+              <h4 className="text-xl font-bold text-blue-600">People First</h4>
+              <p className="text-slate-600 leading-relaxed">We build cohesive teams that support one another and our clients. Excellence begins with trust and mutual respect.</p>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="space-y-3"
+            >
+              <h4 className="text-xl font-bold text-blue-600">Do What You Say</h4>
+              <p className="text-slate-600 leading-relaxed">Integrity is not optional. Our word and our work always align, ensuring transparency and reliability in every project.</p>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="space-y-3"
+            >
+              <h4 className="text-xl font-bold text-blue-600">Get It Done Right</h4>
+              <p className="text-slate-600 leading-relaxed">Precision matters. We execute with discipline, attention to detail, and ownership to deliver right-first-time results.</p>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="space-y-3"
+            >
+              <h4 className="text-xl font-bold text-blue-600">Develop Others</h4>
+              <p className="text-slate-600 leading-relaxed">We mentor, teach, and elevate the people around us. We believe that strong, capable teams create lasting value for our clients.</p>
+            </motion.div>
+          </div>
+        </div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-20 pt-12 border-t border-slate-100 text-center max-w-3xl mx-auto"
+        >
+          <div className="text-slate-300 mb-8 text-2xl tracking-widest">⸻</div>
+          <h4 className="text-2xl font-bold text-slate-900 mb-4">
+            VMS is not a staffing firm. We are not seat-fillers.
+          </h4>
+          <p className="text-slate-600 text-lg mb-8 leading-relaxed">
+            We are a validation execution partner built on technical depth, seamless integration, and uncompromising standards.
+          </p>
+          <p className="text-blue-600 font-bold text-2xl">
+            When the work must be done right the first time — VMS delivers.
+          </p>
+        </motion.div>
       </div>
     </section>
   );
@@ -1162,10 +1262,12 @@ export default function App() {
         <About />
         <Industries />
         <Services />
+        <FounderSection />
         <Process />
         <Approach />
         {/* <ArticlesSection /> */}
         <Testimonials />
+        <CoreValues />
         <Contact />
       </main>
       <Footer />
