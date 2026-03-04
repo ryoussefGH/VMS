@@ -360,22 +360,32 @@ const FounderSection = () => {
             viewport={{ once: true }}
             className="relative flex flex-col items-center"
           >
-            <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-8 border-white shadow-2xl relative">
+            <a 
+              href="https://www.linkedin.com/in/nathanroman" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-8 border-white shadow-2xl relative block transition-transform hover:scale-[1.02]"
+            >
               <img 
                 src="/uploads/nroman.jpeg" 
                 alt="Founder" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
-            </div>
+            </a>
             
-            <div className="mt-8 bg-white px-8 py-4 rounded-2xl shadow-xl border border-slate-100 text-center relative z-10">
+            <a 
+              href="https://www.linkedin.com/in/nathanroman" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="mt-8 bg-white px-8 py-4 rounded-2xl shadow-xl border border-slate-100 text-center relative z-10 block transition-transform hover:scale-[1.02]"
+            >
               <div className="text-slate-900 font-bold text-xl md:text-2xl mb-1">Nathan Roman</div>
               <div className="text-blue-600 text-xs md:text-sm font-bold uppercase tracking-wider">Principal Consultant & Founder</div>
               <div className="absolute -top-3 -right-3 bg-blue-600 text-white p-2 rounded-xl shadow-lg">
                 <Quote size={16} />
               </div>
-            </div>
+            </a>
           </motion.div>
           
           <motion.div 
