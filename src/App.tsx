@@ -93,7 +93,7 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Services', href: '#services' },
     { name: 'About', href: '#about' },
-    { name: 'Approach', href: '#approach' },
+    { name: 'Approach', href: '#vms-way' },
     // { name: 'Articles', href: '#articles' },
     { name: 'Contact', href: '#contact' },
   ];
@@ -114,9 +114,12 @@ const Navbar = () => {
               {link.name}
             </a>
           ))}
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg shadow-blue-600/20 active:scale-95">
+          <a 
+            href="#contact"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg shadow-blue-600/20 active:scale-95"
+          >
             Get Started
-          </button>
+          </a>
         </div>
 
         {/* Mobile Toggle */}
@@ -148,9 +151,13 @@ const Navbar = () => {
                   {link.name}
                 </a>
               ))}
-              <button className="bg-blue-600 text-white px-5 py-3 rounded-xl font-semibold w-full">
+              <a 
+                href="#contact"
+                className="bg-blue-600 text-white px-5 py-3 rounded-xl font-semibold w-full text-center"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Get Started
-              </button>
+              </a>
             </div>
           </motion.div>
         )}
@@ -185,13 +192,13 @@ const Hero = () => {
               Risk-based CQV, temperature mapping, and asset qualification for life sciences. We provide the technical expertise to ensure your facility remains compliant and efficient.
             </p>
             <div className="flex flex-wrap gap-4">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold flex items-center gap-2 transition-all group">
+              <a href="#services" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold flex items-center gap-2 transition-all group">
                 Explore Services
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-8 py-4 rounded-xl font-bold transition-all">
+              </a>
+              <a href="#vms-way" className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-8 py-4 rounded-xl font-bold transition-all">
                 Our Approach
-              </button>
+              </a>
             </div>
             
             <div className="mt-12 flex items-center gap-8 border-t border-white/5 pt-8">
@@ -399,7 +406,7 @@ const FounderSection = () => {
 
 const Approach = () => {
   return (
-    <section id="approach" className="py-24 bg-slate-50 overflow-hidden">
+    <section id="vms-way" className="py-24 bg-slate-50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="relative">
@@ -656,7 +663,7 @@ const Footer = () => {
             <ul className="space-y-4">
               <li><a href="#services" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Services</a></li>
               <li><a href="#about" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">About Us</a></li>
-              <li><a href="#approach" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Our Approach</a></li>
+              <li><a href="#vms-way" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Our Approach</a></li>
               <li><a href="#contact" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Contact</a></li>
             </ul>
           </div>
