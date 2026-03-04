@@ -5,6 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import Parser from "rss-parser";
 import fs from "fs";
+import { Resend } from "resend";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -118,6 +119,50 @@ async function startServer() {
       res.status(204).send();
     } catch (error) {
       res.status(500).json({ error: "Failed to delete article" });
+    }
+  });
+
+  app.post("/api/send-email", async (req, res) => {
+    const { name, email, service, message } = req.body;
+
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const resendApiKey = process.env.RESEND_API_KEY;
+    if (!resendApiKey) {
+      console.error("RESEND_API_KEY is not set");
+      return res.status(500).json({ error: "Email service not configured" });
+    }
+
+    const resend = new Resend(resendApiKey);
+
+    try {
+      const contactEmail = process.env.CONTACT_EMAIL || "ryoussef@gmail.com";
+      const { data, error } = await resend.emails.send({
+        from: "VMS Contact Form <onboarding@resend.dev>",
+        to: [contactEmail],
+        subject: `New Inquiry from ${name} - ${service}`,
+        replyTo: email,
+        html: `
+          <h2>New Contact Form Submission</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Service Needed:</strong> ${service}</p>
+          <p><strong>Message:</strong></p>
+          <p>${message.replace(/\n/g, '<br>')}</p>
+        `,
+      });
+
+      if (error) {
+        console.error("Resend error:", error);
+        return res.status(400).json({ error: error.message });
+      }
+
+      res.status(200).json({ message: "Email sent successfully", id: data?.id });
+    } catch (error) {
+      console.error("Failed to send email:", error);
+      res.status(500).json({ error: "Failed to send email" });
     }
   });
 

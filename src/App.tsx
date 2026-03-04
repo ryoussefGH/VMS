@@ -461,6 +461,52 @@ const Approach = () => {
 };
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    service: 'CQV Services',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to send email');
+      }
+
+      setIsSubmitted(true);
+      // Reset form after 5 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({ name: '', email: '', service: 'CQV Services', message: '' });
+      }, 5000);
+    } catch (error) {
+      console.error('Form submission error:', error);
+      alert(error instanceof Error ? error.message : 'Failed to send message. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
   return (
     <section id="contact" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-6">
@@ -490,34 +536,99 @@ const Contact = () => {
             </div>
             
             <div className="bg-white/5 p-12 lg:p-20 border-l border-white/10">
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Full Name</label>
-                    <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="John Doe" />
+              {isSubmitted ? (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="h-full flex flex-col items-center justify-center text-center space-y-6"
+                >
+                  <div className="w-20 h-20 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <CheckCircle2 size={40} className="text-blue-400" />
+                  </div>
+                  <h4 className="text-2xl font-bold text-white">Message Sent!</h4>
+                  <p className="text-slate-400">Thank you for reaching out. We'll get back to you within 24 hours.</p>
+                  <button 
+                    onClick={() => setIsSubmitted(false)}
+                    className="text-blue-400 font-bold hover:underline"
+                  >
+                    Send another message
+                  </button>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Full Name</label>
+                      <input 
+                        required
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        type="text" 
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
+                        placeholder="John Doe" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Email Address</label>
+                      <input 
+                        required
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        type="email" 
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
+                        placeholder="john@company.com" 
+                      />
+                    </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Email Address</label>
-                    <input type="email" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="john@company.com" />
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Service Needed</label>
+                    <div className="relative">
+                      <select 
+                        name="service"
+                        value={formData.service}
+                        onChange={handleChange}
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors appearance-none"
+                      >
+                        <option className="bg-slate-900" value="CQV Services">CQV Services</option>
+                        <option className="bg-slate-900" value="Thermal Mapping">Thermal Mapping</option>
+                        <option className="bg-slate-900" value="Asset Qualification">Asset Qualification</option>
+                        <option className="bg-slate-900" value="Quality Consulting">Quality Consulting</option>
+                      </select>
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                        <ChevronRight size={16} className="rotate-90" />
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Service Needed</label>
-                  <select className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors appearance-none">
-                    <option className="bg-slate-900">CQV Services</option>
-                    <option className="bg-slate-900">Thermal Mapping</option>
-                    <option className="bg-slate-900">Asset Qualification</option>
-                    <option className="bg-slate-900">Quality Consulting</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Message</label>
-                  <textarea rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="Tell us about your project..."></textarea>
-                </div>
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-blue-600/20">
-                  Send Message
-                </button>
-              </form>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Message</label>
+                    <textarea 
+                      required
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      rows={4} 
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
+                      placeholder="Tell us about your project..."
+                    ></textarea>
+                  </div>
+                  <button 
+                    disabled={isSubmitting}
+                    type="submit"
+                    className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        Sending...
+                      </>
+                    ) : (
+                      'Send Message'
+                    )}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>
@@ -612,7 +723,7 @@ const About = () => {
           
           <div className="relative">
             <div className="aspect-video rounded-[2rem] overflow-hidden shadow-2xl">
-              <img src="/uploads/About_VMS.png" alt="VMS Thermal Validation" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+              <img src="/uploads/pharma-factory.jpg" alt="VMS Thermal Validation" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
             </div>
             <div className="absolute -bottom-6 -right-6 bg-blue-600 text-white p-8 rounded-3xl shadow-xl hidden md:block">
               <div className="text-3xl font-bold mb-1">25+</div>
