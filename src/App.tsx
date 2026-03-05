@@ -418,7 +418,7 @@ const Approach = () => {
   return (
     <section id="vms-way" className="py-24 bg-slate-50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-start mb-20">
+        <div className="grid lg:grid-cols-[1fr_0.75fr] gap-12 items-start mb-12">
           <div className="relative">
             <div className="absolute -top-20 -left-20 w-64 h-64 bg-blue-100 rounded-full blur-3xl opacity-50"></div>
             <div className="relative z-10">
@@ -434,26 +434,26 @@ const Approach = () => {
             </div>
           </div>
           
-          <div className="relative">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-4">
-                <div className="aspect-square rounded-3xl bg-blue-600 p-8 text-white flex flex-col justify-start">
-                  <div className="text-5xl font-bold mb-3">25+</div>
-                  <div className="text-xl font-bold mb-4 leading-tight">Years of Validation Leadership</div>
-                  <div className="text-sm leading-relaxed opacity-90">Experience leading commissioning, qualification, and validation programs across complex life sciences environments.</div>
+          <div className="relative max-w-md ml-auto">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-3">
+                <div className="aspect-square rounded-2xl bg-blue-600 p-6 text-white flex flex-col justify-start">
+                  <div className="text-4xl font-bold mb-2">25+</div>
+                  <div className="text-lg font-bold mb-3 leading-tight">Years of Validation Leadership</div>
+                  <div className="text-xs leading-relaxed opacity-90">Experience leading commissioning, qualification, and validation programs across complex life sciences environments.</div>
                 </div>
-                <div className="aspect-[4/5] rounded-3xl bg-slate-900 overflow-hidden">
+                <div className="aspect-[4/5] rounded-2xl bg-slate-900 overflow-hidden">
                   <img src="https://picsum.photos/seed/cleanroom-validation/800/1000" alt="Cleanroom Validation" className="w-full h-full object-cover opacity-70" referrerPolicy="no-referrer" />
                 </div>
               </div>
-              <div className="space-y-4 pt-12">
-                <div className="aspect-[4/5] rounded-3xl bg-slate-200 overflow-hidden">
+              <div className="space-y-3 pt-8">
+                <div className="aspect-[4/5] rounded-2xl bg-slate-200 overflow-hidden">
                   <img src="https://picsum.photos/seed/validation-instrumentation/800/1000" alt="Validation Instrumentation" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 </div>
-                <div className="aspect-square rounded-3xl bg-white border border-slate-200 p-8 flex flex-col justify-center items-center text-center">
-                  <Globe className="text-blue-600 mb-4" size={40} />
-                  <div className="text-xl font-bold text-slate-900">Global Regulatory Alignment</div>
-                  <div className="text-xs text-slate-500 mt-2 leading-relaxed">Work aligned with FDA, EMA, WHO, ISPE, and ASTM guidance to ensure compliance across regulated environments.</div>
+                <div className="aspect-square rounded-2xl bg-white border border-slate-200 p-6 flex flex-col justify-center items-center text-center">
+                  <Globe className="text-blue-600 mb-3" size={32} />
+                  <div className="text-lg font-bold text-slate-900">Global Regulatory Alignment</div>
+                  <div className="text-[10px] text-slate-500 mt-1 leading-relaxed">Work aligned with FDA, EMA, WHO, ISPE, and ASTM guidance to ensure compliance across regulated environments.</div>
                 </div>
               </div>
             </div>
