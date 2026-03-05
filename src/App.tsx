@@ -418,69 +418,25 @@ const Approach = () => {
   return (
     <section id="vms-way" className="py-24 bg-slate-50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 items-start mb-20">
           <div className="relative">
             <div className="absolute -top-20 -left-20 w-64 h-64 bg-blue-100 rounded-full blur-3xl opacity-50"></div>
             <div className="relative z-10">
               <h2 className="text-xs font-bold text-blue-600 uppercase tracking-[0.2em] mb-4">The VMS Way</h2>
               <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8 tracking-tight">Validation leadership that enables confident growth</h3>
-              <div className="space-y-4 text-slate-600 text-base mb-8 leading-relaxed">
+              <div className="space-y-4 text-slate-600 text-base leading-relaxed">
                 <p>Validation works best when experienced leadership, clear systems, and strong teams operate together.</p>
                 <p>Too often, organizations rely on fragmented support, inconsistent documentation practices, and consultants who are expected to work in isolation. The result is confusion, delays, and compliance risk.</p>
                 <p>Validation Management Solutions was built to solve that problem.</p>
                 <p>We provide structured validation leadership that brings order to complex environments, establishes clear standards, and helps teams execute work correctly the first time.</p>
-                <p>Our approach focuses on five principles.</p>
-              </div>
-              
-              <div className="space-y-8">
-                {[
-                  { 
-                    title: 'Leadership That Guides the Work', 
-                    desc: 'Validation programs need experienced leadership, not just additional labor. VMS provides senior technical guidance that helps organizations define strategy, align teams, and make sound technical decisions throughout the lifecycle of a project.', 
-                    icon: <ShieldCheck className="text-blue-600" /> 
-                  },
-                  { 
-                    title: 'Systems That Create Consistency', 
-                    desc: 'Successful validation programs run on repeatable systems. We help organizations establish clear documentation frameworks, standardized protocols, and structured execution models so projects move forward with clarity and consistency.', 
-                    icon: <Settings className="text-blue-600" /> 
-                  },
-                  { 
-                    title: 'Teams That Are Supported and Developed', 
-                    desc: 'Strong validation programs depend on strong people. We work alongside internal teams to provide mentorship, technical guidance, and practical training so individuals grow in capability while projects move forward.', 
-                    icon: <Users className="text-blue-600" /> 
-                  },
-                  { 
-                    title: 'Compliance That Works in the Real World', 
-                    desc: 'Compliance must be practical, defensible, and aligned with risk. Our methods are built on recognized industry guidance including ASTM E2500, ISPE commissioning and qualification practices, and modern data integrity principles. The goal is simple: Documentation that is technically sound and stands up under regulatory scrutiny.', 
-                    icon: <ClipboardCheck className="text-blue-600" /> 
-                  },
-                  { 
-                    title: 'Built for Long Term Success', 
-                    desc: 'The objective is not just to complete projects. The objective is to help organizations build validation programs that operate with clarity, stability, and confidence.', 
-                    icon: <Award className="text-blue-600" /> 
-                  },
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-slate-900 mb-1">{item.title}</h4>
-                      <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="mt-12 pt-8 border-t border-slate-100 text-center">
-                <p className="text-slate-900 font-bold italic text-lg">That is the VMS approach.</p>
+                <p>Our approach focuses on <span className="font-bold">five</span> principles.</p>
               </div>
             </div>
           </div>
           
           <div className="relative">
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-4 pt-12">
+              <div className="space-y-4">
                 <div className="aspect-square rounded-3xl bg-blue-600 p-8 text-white flex flex-col justify-start">
                   <div className="text-5xl font-bold mb-3">25+</div>
                   <div className="text-xl font-bold mb-4 leading-tight">Years of Validation Leadership</div>
@@ -490,7 +446,7 @@ const Approach = () => {
                   <img src="https://picsum.photos/seed/cleanroom-validation/800/1000" alt="Cleanroom Validation" className="w-full h-full object-cover opacity-70" referrerPolicy="no-referrer" />
                 </div>
               </div>
-              <div className="space-y-4">
+              <div className="space-y-4 pt-12">
                 <div className="aspect-[4/5] rounded-3xl bg-slate-200 overflow-hidden">
                   <img src="https://picsum.photos/seed/validation-instrumentation/800/1000" alt="Validation Instrumentation" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 </div>
@@ -502,6 +458,50 @@ const Approach = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="max-w-4xl mx-auto space-y-10">
+          {[
+            { 
+              title: 'Leadership That Guides the Work', 
+              desc: 'Validation programs need experienced leadership, not just additional labor. VMS provides senior technical guidance that helps organizations define strategy, align teams, and make sound technical decisions throughout the lifecycle of a project.', 
+              icon: <ShieldCheck className="text-blue-600" /> 
+            },
+            { 
+              title: 'Systems That Create Consistency', 
+              desc: 'Successful validation programs run on repeatable systems. We help organizations establish clear documentation frameworks, standardized protocols, and structured execution models so projects move forward with clarity and consistency.', 
+              icon: <Settings className="text-blue-600" /> 
+            },
+            { 
+              title: 'Teams That Are Supported and Developed', 
+              desc: 'Strong validation programs depend on strong people. We work alongside internal teams to provide mentorship, technical guidance, and practical training so individuals grow in capability while projects move forward.', 
+              icon: <Users className="text-blue-600" /> 
+            },
+            { 
+              title: 'Compliance That Works in the Real World', 
+              desc: 'Compliance must be practical, defensible, and aligned with risk. Our methods are built on recognized industry guidance including ASTM E2500, ISPE commissioning and qualification practices, and modern data integrity principles. The goal is simple: Documentation that is technically sound and stands up under regulatory scrutiny.', 
+              icon: <ClipboardCheck className="text-blue-600" /> 
+            },
+            { 
+              title: 'Built for Long Term Success', 
+              desc: 'The objective is not just to complete projects. The objective is to help organizations build validation programs that operate with clarity, stability, and confidence.', 
+              icon: <Award className="text-blue-600" /> 
+            },
+          ].map((item, i) => (
+            <div key={i} className="flex gap-6 items-start">
+              <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center">
+                {item.icon}
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900 mb-2 text-xl">{item.title}</h4>
+                <p className="text-slate-500 text-base leading-relaxed">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <div className="mt-16 text-center">
+          <p className="text-slate-900 font-bold italic text-lg">That is the VMS approach.</p>
         </div>
       </div>
     </section>
@@ -564,7 +564,7 @@ const Contact = () => {
               <h2 className="text-xs font-bold text-blue-400 uppercase tracking-[0.2em] mb-4">Get in Touch</h2>
               <h3 className="text-4xl md:text-5xl font-bold text-white mb-8 tracking-tight">Ready to start your next project?</h3>
               <p className="text-slate-400 text-lg mb-12">
-                Contact our team of experts today for a consultation on your validation needs.
+                Connect with our team of experts today for a consultation on your validation needs.
               </p>
               
               <div className="space-y-6">
@@ -572,7 +572,7 @@ const Contact = () => {
                   <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
                     <Mail size={20} className="text-blue-400" />
                   </div>
-                  <span>contact@validationms.com</span>
+                  <span>connect@validationms.com</span>
                 </div>
                 <div className="flex items-center gap-4 text-slate-300">
                   <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
@@ -973,7 +973,6 @@ const CoreValues = () => {
           viewport={{ once: true }}
           className="mt-20 pt-12 border-t border-slate-100 text-center max-w-3xl mx-auto"
         >
-          <div className="text-slate-300 mb-8 text-2xl tracking-widest">⸻</div>
           <h4 className="text-2xl font-bold text-slate-900 mb-4">
             VMS is not a staffing firm. We are not seat-fillers.
           </h4>
