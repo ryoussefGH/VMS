@@ -443,12 +443,12 @@ const Approach = () => {
                   <div className="text-xs leading-relaxed opacity-90">Experience leading commissioning, qualification, and validation programs across complex life sciences environments.</div>
                 </div>
                 <div className="aspect-[4/5] rounded-2xl bg-slate-900 overflow-hidden">
-                  <img src="https://picsum.photos/seed/cleanroom-validation/800/1000" alt="Cleanroom Validation" className="w-full h-full object-cover opacity-70" referrerPolicy="no-referrer" />
+                  <img src="/uploads/1_VMS_Way.png" alt="Cleanroom Validation" className="w-full h-full object-cover opacity-70" referrerPolicy="no-referrer" />
                 </div>
               </div>
               <div className="space-y-3 pt-8">
                 <div className="aspect-[4/5] rounded-2xl bg-slate-200 overflow-hidden">
-                  <img src="https://picsum.photos/seed/validation-instrumentation/800/1000" alt="Validation Instrumentation" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  <img src="/uploads/2_VMS_Way.jpg" alt="Validation Instrumentation" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 </div>
                 <div className="aspect-square rounded-2xl bg-white border border-slate-200 p-6 flex flex-col justify-center items-center text-center">
                   <Globe className="text-blue-600 mb-3" size={32} />
@@ -775,7 +775,7 @@ const About = () => {
           
           <div className="relative">
             <div className="aspect-video rounded-[2rem] overflow-hidden shadow-2xl">
-              <img src="/uploads/pharma-factory.jpg" alt="VMS Thermal Validation" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+              <img src="/uploads/About.jpg" alt="VMS Thermal Validation" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
             </div>
             <div className="absolute -bottom-6 -right-6 bg-blue-600 text-white p-8 rounded-3xl shadow-xl hidden md:block">
               <div className="text-3xl font-bold mb-1">25+</div>
