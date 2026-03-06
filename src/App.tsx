@@ -32,6 +32,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import Markdown from 'react-markdown';
 import { GoogleGenAI, Type } from "@google/genai";
+import ReactGA from 'react-ga4';
 
 const Logo = ({ className = "h-12", variant = "default" }: { className?: string, variant?: 'default' | 'white' }) => {
   const primaryColor = variant === 'white' ? '#FFFFFF' : '#003366';
@@ -1418,6 +1419,15 @@ const NewsTicker = () => {
 };
 
 export default function App() {
+  // Initialize Google Analytics
+  useEffect(() => {
+    const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+    if (measurementId) {
+      ReactGA.initialize(measurementId);
+      ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-white font-sans selection:bg-blue-100 selection:text-blue-900">
       <header className="fixed top-0 left-0 right-0 z-50">
