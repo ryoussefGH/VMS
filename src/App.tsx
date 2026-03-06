@@ -443,13 +443,15 @@ const Approach = () => {
                   <div className="text-lg font-bold mb-3 leading-tight">Years of Validation Leadership</div>
                   <div className="text-xs leading-relaxed opacity-90">Experience leading commissioning, qualification, and validation programs across complex life sciences environments.</div>
                 </div>
-                <div className="aspect-[4/5] rounded-2xl bg-slate-900 overflow-hidden">
-                  <img src="/uploads/1_VMS_Way.png" alt="Cleanroom Validation" className="w-full h-full object-cover opacity-70" referrerPolicy="no-referrer" />
+                <div className="aspect-[4/5] rounded-2xl bg-blue-800 overflow-hidden relative">
+                  <img src="/uploads/1_VMS_Way.png" alt="Cleanroom Validation" className="w-full h-full object-cover grayscale brightness-75 mix-blend-luminosity" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-blue-600/30 mix-blend-multiply"></div>
                 </div>
               </div>
               <div className="space-y-3 pt-8">
-                <div className="aspect-[4/5] rounded-2xl bg-slate-200 overflow-hidden">
-                  <img src="/uploads/2_VMS_Way.jpg" alt="Validation Instrumentation" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                <div className="aspect-[4/5] rounded-2xl bg-blue-700 overflow-hidden relative">
+                  <img src="/uploads/2_VMS_Way.jpg" alt="Validation Instrumentation" className="w-full h-full object-cover grayscale brightness-75 mix-blend-luminosity" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-blue-600/30 mix-blend-multiply"></div>
                 </div>
                 <div className="aspect-square rounded-2xl bg-white border border-slate-200 p-6 flex flex-col justify-center items-center text-center">
                   <Globe className="text-blue-600 mb-3" size={32} />
@@ -767,11 +769,11 @@ const About = () => {
             <div className="space-y-8">
               <div>
                 <h4 className="font-bold text-slate-900 mb-2">Our Mission</h4>
-                <p className="text-sm text-slate-500">Our mission is to deliver flawless validation execution through accountable, high-performing teams. We eliminate friction between commissioning and validation and provide clients with the confidence that their critical systems are qualified correctly, efficiently, and without supervision.</p>
+                <p className="text-base text-slate-500">Our mission is to deliver flawless validation execution through accountable, high-performing teams. We eliminate friction between commissioning and validation and provide clients with the confidence that their critical systems are qualified correctly, efficiently, and without supervision.</p>
               </div>
               <div>
                 <h4 className="font-bold text-slate-900 mb-2">Our Purpose</h4>
-                <p className="text-sm text-slate-500">We exist to ensure right-first-time validation in regulated life sciences environments. We believe compliance should be seamless, disciplined, and built on true accountability — not fragmented handoffs or consultant dependency.</p>
+                <p className="text-base text-slate-500">We exist to ensure right-first-time validation in regulated life sciences environments. We believe compliance should be seamless, disciplined, and built on true accountability — not fragmented handoffs or consultant dependency.</p>
               </div>
             </div>
           </motion.div>
