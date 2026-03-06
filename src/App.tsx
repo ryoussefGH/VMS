@@ -293,7 +293,7 @@ const Services = () => {
     },
     {
       title: 'Thermal Mapping',
-      description: 'Expert temperature and humidity mapping for warehouses, cold rooms, and incubators.',
+      description: 'Expert temperature and humidity mapping for validated warehouses, cold rooms, and incubators.',
       icon: <Thermometer className="text-blue-500" />,
       features: ['NIST Traceable Sensors', 'Seasonal Studies', 'Mean Kinetic Temp Analysis']
     },
@@ -443,15 +443,15 @@ const Approach = () => {
                   <div className="text-lg font-bold mb-3 leading-tight">Years of Validation Leadership</div>
                   <div className="text-xs leading-relaxed opacity-90">Experience leading commissioning, qualification, and validation programs across complex life sciences environments.</div>
                 </div>
-                <div className="aspect-[4/5] rounded-2xl bg-blue-800 overflow-hidden relative">
-                  <img src="/uploads/1_VMS_Way.png" alt="Cleanroom Validation" className="w-full h-full object-cover grayscale brightness-75 mix-blend-luminosity" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-blue-600/30 mix-blend-multiply"></div>
+                <div className="aspect-[4/5] rounded-2xl bg-slate-200 overflow-hidden relative">
+                  <img src="/uploads/1_VMS_Way.png" alt="Cleanroom Validation" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-blue-900/30"></div>
                 </div>
               </div>
               <div className="space-y-3 pt-8">
-                <div className="aspect-[4/5] rounded-2xl bg-blue-700 overflow-hidden relative">
-                  <img src="/uploads/2_VMS_Way.jpg" alt="Validation Instrumentation" className="w-full h-full object-cover grayscale brightness-75 mix-blend-luminosity" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-blue-600/30 mix-blend-multiply"></div>
+                <div className="aspect-[4/5] rounded-2xl bg-slate-200 overflow-hidden relative">
+                  <img src="/uploads/2_VMS_Way.jpg" alt="Validation Instrumentation" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-blue-900/30"></div>
                 </div>
                 <div className="aspect-square rounded-2xl bg-white border border-slate-200 p-6 flex flex-col justify-center items-center text-center">
                   <Globe className="text-blue-600 mb-3" size={32} />
