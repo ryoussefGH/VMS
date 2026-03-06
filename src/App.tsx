@@ -95,6 +95,8 @@ const Navbar = () => {
     { name: 'Services', href: '#services' },
     { name: 'Leadership', href: '#leadership' },
     { name: 'Approach', href: '#vms-way' },
+    { name: 'Testimonials', href: '#testimonials' },
+    { name: 'Principles', href: '#principles' },
   ];
 
   return (
@@ -698,13 +700,15 @@ const Footer = () => {
             </p>
           </div>
           
-          <div>
+          <div className="col-span-2">
             <h4 className="font-bold text-slate-900 mb-6 uppercase text-xs tracking-widest">Quick Links</h4>
-            <ul className="space-y-4">
+            <ul className="grid grid-cols-2 gap-x-8 gap-y-4">
               <li><a href="#about" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">About Us</a></li>
               <li><a href="#services" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Services</a></li>
               <li><a href="#leadership" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Leadership</a></li>
               <li><a href="#vms-way" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Our Approach</a></li>
+              <li><a href="#testimonials" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Testimonials</a></li>
+              <li><a href="#principles" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Principles</a></li>
             </ul>
           </div>
           
@@ -877,7 +881,7 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="py-24 bg-slate-50">
+    <section id="testimonials" className="py-24 bg-slate-50">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-xs font-bold text-blue-600 uppercase tracking-[0.2em] mb-4">Testimonials</h2>
@@ -909,7 +913,7 @@ const Testimonials = () => {
 
 const CoreValues = () => {
   return (
-    <section className="py-24 bg-white border-t border-slate-100">
+    <section id="principles" className="py-24 bg-white border-t border-slate-100">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-3 gap-16">
           <div className="lg:col-span-1">
