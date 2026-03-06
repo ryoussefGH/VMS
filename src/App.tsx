@@ -91,17 +91,16 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Services', href: '#services' },
     { name: 'About', href: '#about' },
-    { name: 'Approach', href: '#vms-way' },
-    // { name: 'Articles', href: '#articles' },
+    { name: 'Services', href: '#services' },
     { name: 'Leadership', href: '#leadership' },
+    { name: 'Approach', href: '#vms-way' },
   ];
 
   return (
     <nav className={`transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <Logo className="h-10 md:h-12" variant={isScrolled ? 'default' : 'white'} />
+        <Logo className="h-12 md:h-16" variant={isScrolled ? 'default' : 'white'} />
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
@@ -702,10 +701,10 @@ const Footer = () => {
           <div>
             <h4 className="font-bold text-slate-900 mb-6 uppercase text-xs tracking-widest">Quick Links</h4>
             <ul className="space-y-4">
-              <li><a href="#services" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Services</a></li>
               <li><a href="#about" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">About Us</a></li>
-              <li><a href="#vms-way" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Our Approach</a></li>
+              <li><a href="#services" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Services</a></li>
               <li><a href="#leadership" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Leadership</a></li>
+              <li><a href="#vms-way" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Our Approach</a></li>
             </ul>
           </div>
           
