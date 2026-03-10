@@ -327,9 +327,10 @@ const Services = () => {
           {services.map((service, i) => (
             <motion.div 
               key={i}
-              whileHover={{ y: -5 }}
-              className="p-8 rounded-3xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300"
+              whileHover={{ y: -8 }}
+              className="p-8 rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-300 relative overflow-hidden group"
             >
+              <div className="absolute top-0 left-0 w-full h-1.5 bg-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
               <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-6">
                 {service.icon}
               </div>
