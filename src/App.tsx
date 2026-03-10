@@ -712,6 +712,7 @@ const Footer = () => {
               <li><a href="#vms-way" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Our Approach</a></li>
               <li><a href="#testimonials" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Testimonials</a></li>
               <li><a href="#principles" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Principles</a></li>
+              <li><a href="#contact" className="text-slate-500 hover:text-blue-600 text-sm transition-colors">Contact Us</a></li>
             </ul>
           </div>
           
@@ -1426,6 +1427,46 @@ export default function App() {
       ReactGA.initialize(measurementId);
       ReactGA.send({ hitType: "pageview", page: window.location.pathname });
     }
+  }, []);
+
+  // Robust hash scroll handling
+  useEffect(() => {
+    const handleHashScroll = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        // Use a small timeout to ensure the DOM is rendered
+        setTimeout(() => {
+          const element = document.querySelector(hash);
+          if (element) {
+            const offset = 80; // Account for fixed header
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = element.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        }, 300); // Slightly longer delay to be safe
+      }
+    };
+
+    // Run on initial load
+    if (document.readyState === 'complete') {
+      handleHashScroll();
+    } else {
+      window.addEventListener('load', handleHashScroll);
+    }
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashScroll);
+    
+    return () => {
+      window.removeEventListener('load', handleHashScroll);
+      window.removeEventListener('hashchange', handleHashScroll);
+    };
   }, []);
 
   return (
