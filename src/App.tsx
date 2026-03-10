@@ -313,7 +313,7 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="py-24 bg-white">
+    <section id="services" className="py-24 bg-slate-50">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-xs font-bold text-blue-600 uppercase tracking-[0.2em] mb-4">Our Expertise</h2>
@@ -328,7 +328,7 @@ const Services = () => {
             <motion.div 
               key={i}
               whileHover={{ y: -8 }}
-              className="p-8 rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-300 relative overflow-hidden group"
+              className="p-8 rounded-3xl border-2 border-slate-300/50 bg-white shadow-xl shadow-slate-300/20 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-300 relative overflow-hidden group"
             >
               <div className="absolute top-0 left-0 w-full h-1.5 bg-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
               <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-6">
@@ -354,7 +354,7 @@ const Services = () => {
 
 const FounderSection = () => {
   return (
-    <section id="leadership" className="py-24 bg-slate-50">
+    <section id="leadership" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
           <motion.div 
