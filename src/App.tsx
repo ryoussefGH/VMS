@@ -371,7 +371,7 @@ const FounderSection = () => {
             >
               <img 
                 src="/uploads/nroman.jpeg" 
-                alt="Founder" 
+                alt="FounderAndOwner" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
